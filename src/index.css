@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :root {
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --nav-height: 4.5rem;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl bg-surface shadow-card border border-line;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3
+      text-on-primary font-semibold shadow-soft transition active:scale-95
+      disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-line bg-surface
+      px-4 py-2.5 font-semibold text-ink-soft transition active:scale-95;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-line bg-muted/60 px-4 py-3 text-base text-ink
+      placeholder:text-ink-faint outline-none transition
+      focus:border-primary focus:bg-surface focus:ring-4 focus:ring-primary/15;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .pb-safe {
+    padding-bottom: calc(var(--safe-bottom) + 1rem);
+  }
+  .h-dvh-safe {
+    height: 100dvh;
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #f3e7de 25%, #faf1ea 37%, #f3e7de 63%);
+    background-size: 800px 100%;
+    @apply animate-shimmer rounded-xl;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Leaflet tuning */
+.leaflet-container {
+  background: #eef3f4;
+  font-family: 'Quicksand', sans-serif;
+}
+.leaflet-control-attribution {
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 18px;
+}
+.trip-pin {
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 4px 6px rgba(15, 23, 42, 0.35));
+}
+.trip-pin svg {
+  color: #fff;
+}
+.trip-pin .pin-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

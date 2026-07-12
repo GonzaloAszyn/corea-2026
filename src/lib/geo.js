@@ -5,3 +5,9 @@ export function gmapsUrl(item) {
   const q = (item && (item.place || item.name || item.title)) || 'Seoul'
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q + ' Seoul')}`
 }
+
+export function siteUrl(url) {
+  const clean = (url || '').trim()
+  if (!clean) return ''
+  return /^https?:\/\//i.test(clean) ? clean : `https://${clean}`
+}

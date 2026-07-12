@@ -22,18 +22,17 @@ export default function WeatherStrip() {
   const ready = weatherReady()
 
   return (
-    <section className="px-4">
-      <div className="flex items-center justify-between px-1">
+    <section>
+      <div className="flex items-center justify-between px-4">
         <h2 className="font-display text-2xl text-ink">Clima del viaje</h2>
-        <span className="text-xs text-ink-faint">Seúl · °C</span>
+        <span className="text-xs text-ink-faint">°C</span>
       </div>
-      <div className="mt-2 flex gap-2.5 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
+      <div className="mt-2 flex gap-2.5 overflow-x-auto no-scrollbar px-4 pb-1">
         {DAYS.map((d, i) => {
           const w = weather[i]
           const date = dayDate(d.n)
           const desc = describeCode(w?.code)
           const Icon = ICONS[desc.icon] || HelpCircle
-          const forecast = w?.source === 'forecast'
           return (
             <div
               key={d.n}
@@ -57,13 +56,6 @@ export default function WeatherStrip() {
                       <Droplets size={11} /> {w.precip}%
                     </span>
                   )}
-                  <span
-                    className={`mt-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold ${
-                      forecast ? 'bg-secondary/10 text-secondary' : 'bg-accent/10 text-accent'
-                    }`}
-                  >
-                    {forecast ? 'pronóstico' : 'promedio'}
-                  </span>
                 </>
               ) : (
                 <div className="my-2 h-16 w-10 skeleton" />

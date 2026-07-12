@@ -77,7 +77,6 @@ export default function PhotoUploader({
         type="file"
         accept="image/*"
         multiple
-        capture="environment"
         onChange={onFiles}
         className="hidden"
       />

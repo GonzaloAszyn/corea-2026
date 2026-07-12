@@ -8,7 +8,17 @@ let cache = []
 let ready = false
 let fallback = false
 
-const COLUMNS = ['day', 'time_sort', 'time', 'title', 'type', 'place', 'duration', 'tip', 'highlight', 'lat', 'lng']
+const COLUMNS = ['day', 'time_sort', 'time', 'title', 'type', 'place', 'duration', 'tip', 'highlight', 'lat', 'lng', 'url']
+
+function isMissingUrlColumn(err) {
+  const msg = `${err?.message || ''} ${err?.details || ''} ${err?.hint || ''}`
+  return /url/i.test(msg) && /(column|schema cache)/i.test(msg)
+}
+
+function withoutUrl(row) {
+  const { url, ...rest } = row
+  return rest
+}
 
 function byOrder(a, b) {
   if (a.day !== b.day) return a.day - b.day
@@ -81,7 +91,10 @@ export async function addEvent(evt) {
     emit('events')
     return local
   }
-  const { data, error } = await supabase.from('events').insert(pick(evt)).select().single()
+  let { data, error } = await supabase.from('events').insert(pick(evt)).select().single()
+  if (error && isMissingUrlColumn(error)) {
+    ;({ data, error } = await supabase.from('events').insert(withoutUrl(pick(evt))).select().single())
+  }
   if (error) throw error
   cache = [...cache, data].sort(byOrder)
   emit('events')
@@ -94,7 +107,10 @@ export async function updateEvent(id, patch) {
     emit('events')
     return
   }
-  const { error } = await supabase.from('events').update(pick(patch)).eq('id', id)
+  let { error } = await supabase.from('events').update(pick(patch)).eq('id', id)
+  if (error && isMissingUrlColumn(error)) {
+    ;({ error } = await supabase.from('events').update(withoutUrl(pick(patch))).eq('id', id))
+  }
   if (error) throw error
   cache = cache.map((e) => (e.id === id ? { ...e, ...patch } : e)).sort(byOrder)
   emit('events')

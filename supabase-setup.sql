@@ -22,8 +22,11 @@ create table if not exists public.events (
   highlight  boolean not null default false,
   lat        double precision,
   lng        double precision,
+  url        text,
   created_at timestamptz not null default now()
 );
+
+alter table public.events add column if not exists url text;
 
 create table if not exists public.spot_ratings (
   id         uuid primary key default gen_random_uuid(),

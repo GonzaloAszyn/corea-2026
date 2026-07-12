@@ -1,7 +1,7 @@
 # HANDOFF · Corea 2026
 
 Documento técnico: arquitectura, modelo de datos, capa de datos, deploy y decisiones.
-Viaje a Seúl: **2 al 10 de septiembre 2026** (9 días).
+Viaje a Corea: **2 al 14 de septiembre 2026** (13 días) — Seúl (2–8) · Jeonju (8–10) · Busan (10–14).
 
 ## Stack
 
@@ -76,7 +76,7 @@ corea-2026/
 | col | tipo | nota |
 |-----|------|------|
 | id | uuid PK | `gen_random_uuid()` |
-| day | int | 1–9 |
+| day | int | 1–13 |
 | time_sort | numeric | orden dentro del día (HHMM, ej 1430) |
 | time | text | "14:30" |
 | title, type, place, duration, tip | text | `type` ∈ comida/cultura/compras/naturaleza/vista/cafe/ocio/transporte/alojamiento |
@@ -159,8 +159,9 @@ fotos en el pin del mapa y en la tarjeta del evento.
 ## Verificación
 
 `npm run build` compila limpio. Smoke test en navegador (390×844): las 3 pestañas renderizan
-sin errores de consola; countdown en vivo; clima trae promedios reales; mapa dibuja 35 pines
-por tipo con tiles CartoDB; flujo de PIN 0408 desbloquea y muestra controles de edición.
+sin errores de consola; countdown en vivo; clima trae promedios reales; mapa dibuja los pines
+por tipo con tiles CartoDB (Seúl, Jeonju y Busan, auto-encuadrados); flujo de PIN 0408 desbloquea
+y muestra controles de edición.
 
 ## Notas / decisiones
 

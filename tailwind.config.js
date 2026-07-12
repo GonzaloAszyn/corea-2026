@@ -23,7 +23,7 @@ export default {
         'blush-soft': '#FCE7F3'
       },
       fontFamily: {
-        display: ['Caveat', 'ui-rounded', 'cursive'],
+        display: ['Gluten', 'ui-rounded', 'system-ui', 'cursive'],
         sans: ['Quicksand', 'ui-sans-serif', 'system-ui', 'sans-serif']
       },
       borderRadius: {

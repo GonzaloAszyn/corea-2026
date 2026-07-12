@@ -93,14 +93,14 @@ export default function Itinerary() {
         <WeatherStrip />
       </div>
 
-      <section className="mt-6 px-4">
-        <div className="flex items-center gap-2 px-1">
+      <section className="mt-6">
+        <div className="flex items-center gap-2 px-4">
           <span className="grid h-8 w-8 place-items-center rounded-xl bg-blush/40 text-korea">
             <Sparkles size={18} />
           </span>
           <h2 className="font-display text-2xl text-ink">Imperdibles</h2>
         </div>
-        <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
+        <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar px-4 pb-2 pt-1">
           {HIGHLIGHTS.map((h) => (
             <HighlightCard key={h.name} item={h} />
           ))}

@@ -25,6 +25,10 @@
   button {
     touch-action: manipulation;
   }
+
+  .font-display {
+    font-weight: 600;
+  }
 }
 
 @layer components {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { ChevronDown, Lightbulb, Clock, MapPin, Camera, Pencil, Trash2, Star } from 'lucide-react'
+import { ChevronDown, Lightbulb, Clock, MapPin, Camera, Pencil, Trash2, Star, ExternalLink } from 'lucide-react'
 import { typeInfo } from '../lib/types'
-import { gmapsUrl } from '../lib/geo'
+import { gmapsUrl, siteUrl } from '../lib/geo'
 
 export default function EventCard({ event, photoCount = 0, unlocked, onEdit, onDelete }) {
   const [open, setOpen] = useState(false)
@@ -58,6 +58,16 @@ export default function EventCard({ event, photoCount = 0, unlocked, onEdit, onD
               >
                 <MapPin size={15} /> {event.place}
               </a>
+              {event.url && (
+                <a
+                  href={siteUrl(event.url)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 font-semibold text-primary active:opacity-70"
+                >
+                  <ExternalLink size={15} /> Sitio web
+                </a>
+              )}
             </div>
 
             {event.tip && (

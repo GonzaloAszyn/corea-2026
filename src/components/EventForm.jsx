@@ -17,6 +17,7 @@ const empty = {
   place: '',
   duration: '1h',
   tip: '',
+  url: '',
   highlight: false,
   lat: '',
   lng: ''
@@ -50,6 +51,7 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
       place: form.place.trim(),
       duration: form.duration.trim(),
       tip: form.tip.trim(),
+      url: form.url.trim(),
       highlight: !!form.highlight,
       lat: form.lat === '' ? null : Number(form.lat),
       lng: form.lng === '' ? null : Number(form.lng)
@@ -137,6 +139,18 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
           value={form.duration}
           onChange={(e) => set('duration', e.target.value)}
           placeholder="Ej: 2h 30"
+        />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-semibold text-ink-soft">Link / sitio web (opcional)</label>
+        <input
+          className="field"
+          type="url"
+          inputMode="url"
+          value={form.url ?? ''}
+          onChange={(e) => set('url', e.target.value)}
+          placeholder="https://…"
         />
       </div>
 

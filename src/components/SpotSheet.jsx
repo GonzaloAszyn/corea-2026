@@ -1,9 +1,9 @@
-import { MapPin, Camera } from 'lucide-react'
+import { MapPin, Camera, ExternalLink } from 'lucide-react'
 import Sheet from './Sheet'
 import RatingBlock from './RatingBlock'
 import PhotoUploader from './PhotoUploader'
 import { typeInfo } from '../lib/types'
-import { gmapsUrl } from '../lib/geo'
+import { gmapsUrl, siteUrl } from '../lib/geo'
 import { usePhotos } from '../lib/hooks'
 import { getPhotosForEvent } from '../lib/photos'
 
@@ -28,6 +28,12 @@ export default function SpotSheet({ spot, onClose }) {
         <a href={gmapsUrl(spot)} target="_blank" rel="noreferrer" className="btn-ghost w-full text-secondary">
           <MapPin size={17} /> {spot.place} · Abrir en Google Maps
         </a>
+
+        {spot.url && (
+          <a href={siteUrl(spot.url)} target="_blank" rel="noreferrer" className="btn-ghost w-full text-primary">
+            <ExternalLink size={17} /> Sitio web del lugar
+          </a>
+        )}
 
         <div>
           <div className="mb-2 flex items-center justify-between">

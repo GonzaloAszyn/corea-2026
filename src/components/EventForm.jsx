@@ -36,7 +36,7 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
 
   async function submit(e) {
     e.preventDefault()
-    if (!form.title.trim()) {
+    if (!(form.title || '').trim()) {
       setError('Poné un título.')
       return
     }
@@ -44,14 +44,14 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
     setBusy(true)
     const payload = {
       day: Number(form.day),
-      time: form.time.trim(),
+      time: (form.time || '').trim(),
       time_sort: timeToSort(form.time),
       title: form.title.trim(),
       type: form.type,
-      place: form.place.trim(),
-      duration: form.duration.trim(),
-      tip: form.tip.trim(),
-      url: form.url.trim(),
+      place: (form.place || '').trim(),
+      duration: (form.duration || '').trim(),
+      tip: (form.tip || '').trim(),
+      url: (form.url || '').trim(),
       highlight: !!form.highlight,
       lat: form.lat === '' ? null : Number(form.lat),
       lng: form.lng === '' ? null : Number(form.lng)

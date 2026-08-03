@@ -146,7 +146,7 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
         <label className="mb-1 block text-sm font-semibold text-ink-soft">Link / sitio web (opcional)</label>
         <input
           className="field"
-          type="url"
+          type="text"
           inputMode="url"
           value={form.url ?? ''}
           onChange={(e) => set('url', e.target.value)}

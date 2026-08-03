@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Check, Star } from 'lucide-react'
 import { TYPES, TYPE_KEYS } from '../lib/types'
-import { DAYS } from '../data/trip'
+import { getDays } from '../lib/dayTitles'
 
 function timeToSort(time) {
   const m = /^(\d{1,2}):(\d{2})$/.exec((time || '').trim())
@@ -80,7 +80,7 @@ export default function EventForm({ event, defaultDay = 1, onSubmit, onCancel })
         <div>
           <label className="mb-1 block text-sm font-semibold text-ink-soft">Día</label>
           <select className="field" value={form.day} onChange={(e) => set('day', e.target.value)}>
-            {DAYS.map((d) => (
+            {getDays().map((d) => (
               <option key={d.n} value={d.n}>
                 Día {d.n} · {d.title}
               </option>

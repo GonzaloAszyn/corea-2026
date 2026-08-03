@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react'
-import { Plus, Sparkles, WifiOff } from 'lucide-react'
-import { TRIP, DAYS, COVER_IMAGE, HIGHLIGHTS } from '../data/trip'
+import { Plus, Sparkles, WifiOff, Pencil, Check, X } from 'lucide-react'
+import { TRIP, COVER_IMAGE, HIGHLIGHTS } from '../data/trip'
 import { tripRangeLabel, dayDate, shortDate, countdown } from '../lib/dates'
-import { useEvents, usePhotos, useUnlocked } from '../lib/hooks'
+import { useEvents, usePhotos, useUnlocked, useDays } from '../lib/hooks'
 import { getEvents, addEvent, updateEvent, deleteEvent, isFallback } from '../lib/events'
+import { setDayTitle } from '../lib/dayTitles'
 import { countByEvent } from '../lib/photos'
 import { lock } from '../lib/editAccess'
 
@@ -21,6 +22,7 @@ export default function Itinerary() {
   useEvents()
   usePhotos()
   const unlocked = useUnlocked()
+  const days = useDays()
   const events = getEvents()
   const photoCounts = countByEvent()
   const fallback = isFallback()
@@ -31,7 +33,19 @@ export default function Itinerary() {
   const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState(null)
   const [formDay, setFormDay] = useState(1)
+  const [editingDay, setEditingDay] = useState(null)
+  const [dayTitleDraft, setDayTitleDraft] = useState('')
   const pendingRef = useRef(null)
+
+  function startEditDay(day) {
+    setEditingDay(day.n)
+    setDayTitleDraft(day.title)
+  }
+
+  function commitDayTitle() {
+    if (editingDay != null) setDayTitle(editingDay, dayTitleDraft)
+    setEditingDay(null)
+  }
 
   function openForm(day, event = null) {
     setFormDay(day)
@@ -108,9 +122,10 @@ export default function Itinerary() {
       </section>
 
       <section className="mt-6 space-y-6 px-4">
-        {DAYS.map((day) => {
+        {days.map((day) => {
           const dayEvents = events.filter((e) => e.day === day.n)
           const isToday = todayIndex === day.n
+          const isEditingTitle = editingDay === day.n
           return (
             <div key={day.n}>
               <div className="mb-2.5 flex items-center gap-3 px-1">
@@ -122,15 +137,59 @@ export default function Itinerary() {
                   {day.n}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="truncate font-semibold text-ink">{day.title}</h3>
-                    {isToday && (
-                      <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white">
-                        HOY
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs capitalize text-ink-soft">{shortDate(dayDate(day.n))}</p>
+                  {isEditingTitle ? (
+                    <div className="flex items-center gap-2">
+                      <input
+                        autoFocus
+                        value={dayTitleDraft}
+                        onChange={(e) => setDayTitleDraft(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') commitDayTitle()
+                          if (e.key === 'Escape') setEditingDay(null)
+                        }}
+                        className="min-w-0 flex-1 rounded-lg border border-line bg-surface px-2 py-1 text-sm font-semibold text-ink outline-none focus:border-primary"
+                        placeholder="Título del día"
+                      />
+                      <button
+                        type="button"
+                        onClick={commitDayTitle}
+                        className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary text-white"
+                        aria-label="Guardar título"
+                      >
+                        <Check size={15} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingDay(null)}
+                        className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-muted text-ink-soft"
+                        aria-label="Cancelar"
+                      >
+                        <X size={15} />
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <h3 className="truncate font-semibold text-ink">{day.title}</h3>
+                        {isToday && (
+                          <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-white">
+                            HOY
+                          </span>
+                        )}
+                        {unlocked && (
+                          <button
+                            type="button"
+                            onClick={() => startEditDay(day)}
+                            className="shrink-0 text-ink-faint transition active:text-primary"
+                            aria-label="Editar título del día"
+                          >
+                            <Pencil size={14} />
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs capitalize text-ink-soft">{shortDate(dayDate(day.n))}</p>
+                    </>
+                  )}
                 </div>
               </div>
 

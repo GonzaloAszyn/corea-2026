@@ -3,8 +3,10 @@ import { getEvents } from './events'
 import { getRatings } from './ratings'
 import { getPhotos } from './photos'
 import { getWeather } from './weather'
+import { getDays } from './dayTitles'
 import { isUnlocked } from './editAccess'
 
+export const useDays = () => useStore('days', getDays)
 export const useEvents = () => useStore('events', getEvents)
 export const useRatings = () => useStore('ratings', getRatings)
 export const usePhotos = () => useStore('photos', getPhotos)
